@@ -14,6 +14,8 @@ import { LinearGradient } from 'expo-linear-gradient';
 import axios from 'axios';
 import { HitTestResultTypes } from 'expo/build/AR';
 
+const UsernameContext = React.createContext('');
+
 export default class LoginScreen extends Component {
   constructor(props) {
     super(props);
@@ -79,6 +81,7 @@ export default class LoginScreen extends Component {
                 uri: 'https://img.icons8.com/officel/40/000000/email.png',
               }}
             />
+            <UsernameContext.Provider value={this.state['email']}></UsernameContext.Provider>
             <TextInput
               style={styles.inputs}
               placeholder="Email"

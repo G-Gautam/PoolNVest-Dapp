@@ -8,41 +8,28 @@ import {
   MessageInput,
 } from "stream-chat-expo";
 
-// var appUser = this.props.navigation.dangerouslyGetParent().getParam('user')
+import UsernameContext from './LoginScreen';
 
-const chatClient = new StreamChat('f8wwud5et5jd');
-var result = '';
-var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-var charactersLength = characters.length;
-for (var i = 0; i < charactersLength; i++) {
-  result += characters.charAt(Math.floor(Math.random() * charactersLength));
-}
-var userToken =
-  'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoiaWN5LXVuaXQtMCJ9.R36ZrlzX149D5srpNC3_ge2CYEAFgesp60kgbS0rw5w';
-
-var date = new Date().getSeconds().toString();
-var user = {
-  id: date,
-  name: 'a',
-  image:
-    'https://getstream.io/random_svg/?name=John',
-};
-
-chatClient.setGuestUser({ id: date });
 
 export default class SettingsScreen extends React.Component {
-
-  random(){
-    var result = '';
-    var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    var charactersLength = characters.length;
-    for (var i = 0; i < charactersLength; i++) {
-      result += characters.charAt(Math.floor(Math.random() * charactersLength));
-    }
-    return result;
-  }
   render() {
-    const channel = chatClient.channel("messaging", "result");
+    <UsernameContext.Consumer>
+      {(username) => {
+        var user = {
+          id: username,
+          name: 'a',
+          image:
+            'https://getstream.io/random_svg/?name=John',
+        };
+      }}
+    </UsernameContext.Consumer>
+
+    const chatClient = new StreamChat('f8wwud5et5jd');
+    var userToken =
+      'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoiaWN5LXVuaXQtMCJ9.R36ZrlzX149D5srpNC3_ge2CYEAFgesp60kgbS0rw5w';
+
+    chatClient.setGuestUser({ id: this.props.username });
+    const channel = chatClient.channel("messaging", "b");
     channel.watch();
 
     return (
